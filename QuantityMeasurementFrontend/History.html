@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BuildScale - History</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="logo">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path
+              d="M4 4L28 28M28 4L4 28"
+              stroke="#41431B"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <rect x="12" y="12" width="8" height="8" fill="#89986D" />
+          </svg>
+          <span>BuildScale</span>
+        </div>
+        <div class="nav-actions">
+          <button
+            class="btn-secondary"
+            onclick="window.location.href = 'Index.html'"
+          >
+            Home
+          </button>
+          <button
+            class="btn-secondary"
+            onclick="window.location.href = 'Profile.html'"
+          >
+            Profile
+          </button>
+          <button class="btn-primary" onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- History Content -->
+    <div class="history-container">
+      <div class="history-header">
+        <h1>Operation History</h1>
+        <p>View and manage your saved calculations</p>
+      </div>
+
+      <div class="history-filters">
+        <select
+          class="form-group"
+          style="
+            padding: 0.75rem;
+            border: 2px solid var(--cream-dark);
+            border-radius: var(--radius-md);
+          "
+          onchange="filterHistory(this.value)"
+        >
+          <option value="all">All Operations</option>
+          <option value="add">Add</option>
+          <option value="subtract">Subtract</option>
+          <option value="multiply">Multiply</option>
+          <option value="divide">Divide</option>
+          <option value="compare">Compare</option>
+          <option value="convert">Convert</option>
+        </select>
+        <button class="btn-secondary" onclick="clearHistory()">
+          Clear All History
+        </button>
+      </div>
+
+      <div class="history-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Operation</th>
+              <th>Details</th>
+              <th>Result</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="historyTableBody">
+            <tr>
+              <td colspan="5" style="text-align: center; padding: 3rem">
+                <div class="spinner"></div>
+                <p style="margin-top: 1rem; color: var(--text-secondary)">
+                  Loading history...
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="history.js"></script>
+  </body>
+</html>

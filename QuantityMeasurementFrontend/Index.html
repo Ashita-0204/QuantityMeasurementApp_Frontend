@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BuildScale - Measure Everything</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="logo">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path
+              d="M4 4L28 28M28 4L4 28"
+              stroke="#41431B"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <rect x="12" y="12" width="8" height="8" fill="#89986D" />
+          </svg>
+          <span>BuildScale</span>
+        </div>
+        <div class="nav-actions">
+          <button
+            class="btn-secondary"
+            onclick="window.location.href = 'History.html'"
+            id="historyBtn"
+            style="display: none"
+          >
+            History
+          </button>
+          <button
+            class="btn-secondary"
+            onclick="window.location.href = 'Profile.html'"
+            id="profileBtn"
+            style="display: none"
+          >
+            Profile
+          </button>
+          <button
+            class="btn-primary"
+            onclick="window.location.href = 'Auth.html'"
+            id="authBtn"
+          >
+            Sign In
+          </button>
+          <button
+            class="btn-primary"
+            onclick="logout()"
+            id="logoutBtn"
+            style="display: none"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Measure Everything</h1>
+        <p>Convert, compare &amp; compute across all unit categories</p>
+        <div class="features-preview">
+          <div class="feature-badge">
+            <span class="dot"></span>
+            <span>1 Foot = 12 Inches</span>
+            <span class="category">LENGTH</span>
+          </div>
+          <div class="feature-badge">
+            <span class="dot"></span>
+            <span>1 Kilogram = 1000 Grams</span>
+            <span class="category">WEIGHT</span>
+          </div>
+          <div class="feature-badge">
+            <span class="dot"></span>
+            <span>100°C = 373.15 K</span>
+            <span class="category">TEMP</span>
+          </div>
+          <div class="feature-badge">
+            <span class="dot"></span>
+            <span>1 Gallon = 3785 mL</span>
+            <span class="category">VOLUME</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Operations Section -->
+    <section class="operations-section">
+      <h2>Select an Operation</h2>
+      <div class="operations-grid">
+        <div class="operation-card" onclick="selectOperation('add')">
+          <div class="operation-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <path
+                d="M24 12V36M12 24H36"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <h3>Add</h3>
+          <p>Sum two quantities of the same unit</p>
+        </div>
+
+        <div class="operation-card" onclick="selectOperation('subtract')">
+          <div class="operation-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <path
+                d="M12 24H36"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <h3>Subtract</h3>
+          <p>Find the difference between quantities</p>
+        </div>
+
+        <div class="operation-card" onclick="selectOperation('divide')">
+          <div class="operation-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <path
+                d="M12 24H36M24 12V16M24 32V36"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <h3>Divide</h3>
+          <p>Divide a quantity by another quantity</p>
+        </div>
+
+        <div class="operation-card" onclick="selectOperation('compare')">
+          <div class="operation-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <path
+                d="M16 20L24 12L32 20M16 28L24 36L32 28"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <h3>Compare</h3>
+          <p>Compare two quantities</p>
+        </div>
+
+        <div class="operation-card" onclick="selectOperation('convert')">
+          <div class="operation-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <path
+                d="M36 16L28 24L36 32M12 32L20 24L12 16"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <h3>Convert</h3>
+          <p>Convert between different units</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Operation Modal -->
+    <div id="operationModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modalTitle">Add Quantities</h2>
+          <button class="close-btn" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="modalBody">
+          <!-- Dynamic content will be inserted here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Result Display -->
+    <div id="resultDisplay" class="result-display" style="display: none">
+      <div class="result-content">
+        <div class="result-header">
+          <h3>Result</h3>
+          <button class="close-btn" onclick="closeResult()">&times;</button>
+        </div>
+        <div class="result-body" id="resultBody"></div>
+        <div class="result-actions" id="resultActions">
+          <button
+            class="btn-primary"
+            id="saveBtn"
+            onclick="promptSignIn()"
+            style="display: none"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path
+                d="M13 8V13H3V8M8 10V2M8 2L5 5M8 2L11 5"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Sign in to Save
+          </button>
+          <span
+            id="autoSavedNote"
+            style="
+              display: none;
+              font-size: 0.85rem;
+              color: var(--success);
+              font-weight: 600;
+              align-self: center;
+            "
+          >
+            ✓ Saved automatically
+          </span>
+          <button class="btn-secondary" onclick="closeResult()">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js?v=3"></script>
+  </body>
+</html>

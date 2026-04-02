@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BuildScale - Sign In</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* Auth page overrides — compact container */
+      .auth-body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background: var(--cream-medium);
+      }
+
+      .auth-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        max-width: 860px; /* was 1200px — now compact */
+        width: 100%;
+        background: white;
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+      }
+
+      .auth-panel {
+        padding: 2rem 2.25rem; /* was 3rem — tighter padding */
+      }
+
+      .form-title {
+        font-size: 1.6rem; /* slightly smaller heading */
+        margin-bottom: 0.35rem;
+      }
+
+      .form-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.1rem; /* tighter spacing between fields */
+      }
+
+      .logo-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .auth-toggle {
+        margin-bottom: 1.5rem;
+      }
+
+      .info-content h2 {
+        font-size: 2.25rem;
+      }
+
+      .info-content > p {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .info-features {
+        gap: 1.1rem;
+      }
+
+      @media (max-width: 640px) {
+        .auth-container {
+          grid-template-columns: 1fr;
+        }
+        .auth-info-panel {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="auth-body">
+    <div class="auth-container">
+      <!-- Left Panel - Form -->
+      <div class="auth-panel auth-form-panel">
+        <div class="logo-section">
+          <svg width="40" height="40" viewBox="0 0 32 32" fill="none">
+            <path
+              d="M4 4L28 28M28 4L4 28"
+              stroke="#41431B"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <rect x="12" y="12" width="8" height="8" fill="#89986D" />
+          </svg>
+          <span class="logo-text">BuildScale</span>
+        </div>
+
+        <!-- Toggle Buttons -->
+        <div class="auth-toggle">
+          <button
+            class="toggle-btn active"
+            id="loginToggle"
+            onclick="switchToLogin()"
+          >
+            Login
+          </button>
+          <button
+            class="toggle-btn"
+            id="signupToggle"
+            onclick="switchToSignup()"
+          >
+            Sign Up
+          </button>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginForm" class="auth-form">
+          <h2 class="form-title">Welcome back</h2>
+          <p class="form-subtitle">Sign in to access your saved measurements</p>
+
+          <div class="form-group">
+            <label for="loginEmail">EMAIL</label>
+            <input
+              type="email"
+              id="loginEmail"
+              placeholder="your@email.com"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="loginPassword">PASSWORD</label>
+            <div class="password-input">
+              <input
+                type="password"
+                id="loginPassword"
+                placeholder="••••••••••••"
+                required
+              />
+              <button
+                type="button"
+                class="password-toggle"
+                onclick="togglePassword('loginPassword')"
+              >
+                👁️
+              </button>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <label class="checkbox-label">
+              <input type="checkbox" id="rememberMe" />
+              <span>Remember me</span>
+            </label>
+            <a href="#" class="link-text">Forgot password?</a>
+          </div>
+
+          <button class="btn-submit" onclick="handleLogin()">Sign In</button>
+
+          <div class="divider">
+            <span>OR</span>
+          </div>
+
+          <button class="btn-google" onclick="handleGoogleLogin()">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M19.6 10.227c0-.709-.064-1.39-.182-2.045H10v3.868h5.382a4.6 4.6 0 01-1.996 3.018v2.51h3.232c1.891-1.742 2.982-4.305 2.982-7.35z"
+                fill="#4285F4"
+              />
+              <path
+                d="M10 20c2.7 0 4.964-.895 6.618-2.423l-3.232-2.509c-.895.6-2.04.955-3.386.955-2.605 0-4.81-1.76-5.595-4.123H1.064v2.59A9.996 9.996 0 0010 20z"
+                fill="#34A853"
+              />
+              <path
+                d="M4.405 11.9c-.2-.6-.314-1.24-.314-1.9 0-.66.114-1.3.314-1.9V5.51H1.064A9.996 9.996 0 000 10c0 1.614.386 3.14 1.064 4.49l3.34-2.59z"
+                fill="#FBBC05"
+              />
+              <path
+                d="M10 3.977c1.468 0 2.786.505 3.823 1.496l2.868-2.868C14.959.99 12.695 0 10 0 6.09 0 2.71 2.24 1.064 5.51l3.34 2.59C5.19 5.736 7.395 3.977 10 3.977z"
+                fill="#EA4335"
+              />
+            </svg>
+            Continue with Google
+          </button>
+        </div>
+
+        <!-- Signup Form -->
+        <div id="signupForm" class="auth-form" style="display: none">
+          <h2 class="form-title">Create an account</h2>
+          <p class="form-subtitle">Sign up and get 30 day free trial</p>
+
+          <div class="form-group">
+            <label for="signupUsername">USERNAME</label>
+            <input
+              type="text"
+              id="signupUsername"
+              placeholder="johndoe"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="signupEmail">EMAIL</label>
+            <input
+              type="email"
+              id="signupEmail"
+              placeholder="your@email.com"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="signupPassword">PASSWORD</label>
+            <div class="password-input">
+              <input
+                type="password"
+                id="signupPassword"
+                placeholder="••••••••••••"
+                required
+              />
+              <button
+                type="button"
+                class="password-toggle"
+                onclick="togglePassword('signupPassword')"
+              >
+                👁️
+              </button>
+            </div>
+            <div class="password-strength" id="passwordStrength"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="agreeTerms" required />
+              <span
+                >I agree to the
+                <a href="#" class="link-text">Terms &amp; Conditions</a></span
+              >
+            </label>
+          </div>
+
+          <button class="btn-submit" onclick="handleSignup()">
+            Create Account
+          </button>
+
+          <div class="divider">
+            <span>OR</span>
+          </div>
+
+          <button class="btn-google" onclick="handleGoogleLogin()">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M19.6 10.227c0-.709-.064-1.39-.182-2.045H10v3.868h5.382a4.6 4.6 0 01-1.996 3.018v2.51h3.232c1.891-1.742 2.982-4.305 2.982-7.35z"
+                fill="#4285F4"
+              />
+              <path
+                d="M10 20c2.7 0 4.964-.895 6.618-2.423l-3.232-2.509c-.895.6-2.04.955-3.386.955-2.605 0-4.81-1.76-5.595-4.123H1.064v2.59A9.996 9.996 0 0010 20z"
+                fill="#34A853"
+              />
+              <path
+                d="M4.405 11.9c-.2-.6-.314-1.24-.314-1.9 0-.66.114-1.3.314-1.9V5.51H1.064A9.996 9.996 0 000 10c0 1.614.386 3.14 1.064 4.49l3.34-2.59z"
+                fill="#FBBC05"
+              />
+              <path
+                d="M10 3.977c1.468 0 2.786.505 3.823 1.496l2.868-2.868C14.959.99 12.695 0 10 0 6.09 0 2.71 2.24 1.064 5.51l3.34 2.59C5.19 5.736 7.395 3.977 10 3.977z"
+                fill="#EA4335"
+              />
+            </svg>
+            Sign up with Google
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Panel - Info -->
+      <div class="auth-panel auth-info-panel">
+        <div class="info-content">
+          <div class="info-icon">
+            <svg width="70" height="70" viewBox="0 0 80 80" fill="none">
+              <path
+                d="M10 10L70 70M70 10L10 70"
+                stroke="#F8F3E1"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <rect x="30" y="30" width="20" height="20" fill="#C5D89D" />
+            </svg>
+          </div>
+          <h2>Measure<br />Everything</h2>
+          <p>Convert, compare &amp; compute<br />across all unit categories</p>
+
+          <div class="info-features">
+            <div class="info-feature">
+              <span class="feature-dot"></span>
+              <div>
+                <strong>1 Foot = 12 Inches</strong>
+                <span class="feature-category">LENGTH</span>
+              </div>
+            </div>
+            <div class="info-feature">
+              <span class="feature-dot"></span>
+              <div>
+                <strong>1 Kilogram = 1000 Grams</strong>
+                <span class="feature-category">WEIGHT</span>
+              </div>
+            </div>
+            <div class="info-feature">
+              <span class="feature-dot"></span>
+              <div>
+                <strong>100°C = 373.15 K</strong>
+                <span class="feature-category">TEMP</span>
+              </div>
+            </div>
+            <div class="info-feature">
+              <span class="feature-dot"></span>
+              <div>
+                <strong>1 Gallon = 3785 mL</strong>
+                <span class="feature-category">VOLUME</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="auth.js?v=3"></script>
+  </body>
+</html>

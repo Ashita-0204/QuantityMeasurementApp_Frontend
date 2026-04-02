@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BuildScale - Profile</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="logo">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path
+              d="M4 4L28 28M28 4L4 28"
+              stroke="#41431B"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <rect x="12" y="12" width="8" height="8" fill="#89986D" />
+          </svg>
+          <span>BuildScale</span>
+        </div>
+        <div class="nav-actions">
+          <button
+            class="btn-secondary"
+            onclick="window.location.href = 'Index.html'"
+          >
+            Home
+          </button>
+          <button
+            class="btn-secondary"
+            onclick="window.location.href = 'History.html'"
+          >
+            History
+          </button>
+          <button class="btn-primary" onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Profile Content -->
+    <div class="profile-container">
+      <div class="profile-header">
+        <div class="profile-avatar" id="profileAvatar">U</div>
+        <div class="profile-name" id="profileName">Loading...</div>
+        <div class="profile-email" id="profileEmail">Loading...</div>
+      </div>
+
+      <div class="profile-content">
+        <div class="profile-section">
+          <h3>Account Information</h3>
+          <div class="profile-stat">
+            <span class="stat-label">Username</span>
+            <span class="stat-value" id="usernameDisplay">-</span>
+          </div>
+          <div class="profile-stat">
+            <span class="stat-label">Email</span>
+            <span class="stat-value" id="emailDisplay">-</span>
+          </div>
+          <div class="profile-stat">
+            <span class="stat-label">Member Since</span>
+            <span class="stat-value" id="memberSince">-</span>
+          </div>
+        </div>
+
+        <div class="profile-section">
+          <h3>Usage Statistics</h3>
+          <div class="profile-stat">
+            <span class="stat-label">Total Operations</span>
+            <span class="stat-value" id="totalOperations">0</span>
+          </div>
+          <div class="profile-stat">
+            <span class="stat-label">Saved Results</span>
+            <span class="stat-value" id="savedResults">0</span>
+          </div>
+          <div class="profile-stat">
+            <span class="stat-label">Most Used Operation</span>
+            <span class="stat-value" id="mostUsed">-</span>
+          </div>
+        </div>
+
+        <div class="profile-section">
+          <h3>Account Actions</h3>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap">
+            <button class="btn-secondary" onclick="changePassword()">
+              Change Password
+            </button>
+            <button class="btn-secondary" onclick="exportData()">
+              Export Data
+            </button>
+            <button
+              class="btn-secondary"
+              style="border-color: #c85a54; color: #c85a54"
+              onclick="deleteAccount()"
+            >
+              Delete Account
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="profile.js"></script>
+  </body>
+</html>
