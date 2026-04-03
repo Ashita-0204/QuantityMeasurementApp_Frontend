@@ -1,5 +1,6 @@
 const fs = require("fs");
-const apiUrl = process.env.API_URL || "http://localhost:5001";
+const apiUrl =
+  process.env.API_URL || "https://quantitymeasurementappbackend.onrender.com";
 
 const content = `(function (window) {
   window.__env = window.__env || {};
