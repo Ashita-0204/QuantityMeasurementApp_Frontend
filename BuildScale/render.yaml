@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: buildscale-frontend
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist/buildscale-angular/browser
+    envVars:
+      - key: API_URL
+        value: https://your-backend.onrender.com # change this later
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
