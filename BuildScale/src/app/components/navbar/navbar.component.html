@@ -1,0 +1,30 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <a class="logo" routerLink="/">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M4 4L28 28M28 4L4 28" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <rect x="12" y="12" width="8" height="8" fill="#89986D"/>
+      </svg>
+      <span>BuildScale</span>
+    </a>
+
+    <div class="nav-actions">
+      <div class="theme-toggle-wrapper">
+        <span class="theme-icon">☀️</span>
+        <label class="theme-switch" title="Toggle dark mode">
+          <input type="checkbox" [checked]="isDark" (change)="onThemeToggle()" />
+          <span class="theme-switch-track"></span>
+        </label>
+        <span class="theme-icon">🌙</span>
+      </div>
+
+      @if (auth.isLoggedIn()) {
+        <button class="btn-secondary" routerLink="/history">History</button>
+        <button class="btn-secondary" routerLink="/profile">Profile</button>
+        <button class="btn-primary" (click)="logout()">Logout</button>
+      } @else {
+        <button class="btn-primary" routerLink="/auth">Sign In</button>
+      }
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,194 @@
+<app-navbar></app-navbar>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Measure Everything</h1>
+    <p>Convert, compare &amp; compute across all unit categories</p>
+    <div class="features-preview">
+      <div class="feature-badge">
+        <span class="dot"></span>
+        <span>1 Foot = 12 Inches</span>
+        <span class="category">LENGTH</span>
+      </div>
+      <div class="feature-badge">
+        <span class="dot"></span>
+        <span>1 Kilogram = 1000 Grams</span>
+        <span class="category">WEIGHT</span>
+      </div>
+      <div class="feature-badge">
+        <span class="dot"></span>
+        <span>100°C = 373.15 K</span>
+        <span class="category">TEMP</span>
+      </div>
+      <div class="feature-badge">
+        <span class="dot"></span>
+        <span>1 Gallon = 3785 mL</span>
+        <span class="category">VOLUME</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Operations Section -->
+<section class="operations-section">
+  <h2>Select an Operation</h2>
+  <div class="operations-grid">
+    @for (op of operations; track op.id) {
+      <div class="operation-card" (click)="selectOperation(op.id)">
+        <div class="operation-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <path [attr.d]="op.svgPath" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>{{ op.label }}</h3>
+        <p>{{ op.desc }}</p>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Operation Modal -->
+<div class="modal" [class.active]="modalActive()" (click)="onModalBackdropClick($event)">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>{{ modalTitle() }}</h2>
+      <button class="close-btn" (click)="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Category Select -->
+      <div class="form-group">
+        <label>Unit Category</label>
+        <select [value]="selectedCategory()" (change)="onCategoryChange($event)">
+          <option value="">Select category</option>
+          @for (cat of categories; track cat) {
+            <option [value]="cat">{{ cat }}</option>
+          }
+        </select>
+      </div>
+
+      @if (isConvert) {
+        <!-- Convert form -->
+        <div class="form-group">
+          <label>Value</label>
+          <input type="number" [value]="convertValue()" (input)="onConvertValueChange($event)" step="any" placeholder="Enter value" />
+        </div>
+        <div class="form-group">
+          <label>From Unit</label>
+          <select [value]="fromUnit()" (change)="onFromUnitChange($event)">
+            <option value="">Select unit</option>
+            @for (u of availableUnits(); track u) {
+              <option [value]="u">{{ u }}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label>To Unit</label>
+          <select [value]="toUnit()" (change)="onToUnitChange($event)">
+            <option value="">Select unit</option>
+            @for (u of availableUnits(); track u) {
+              <option [value]="u">{{ u }}</option>
+            }
+          </select>
+        </div>
+      } @else {
+        <!-- Arithmetic / Compare form -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Value</label>
+            <input type="number" [value]="value1()" (input)="onValue1Change($event)" step="any" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label>First Unit</label>
+            <select [value]="unit1()" (change)="onUnit1Change($event)">
+              <option value="">Select unit</option>
+              @for (u of availableUnits(); track u) {
+                <option [value]="u">{{ u }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Second Value</label>
+            <input type="number" [value]="value2()" (input)="onValue2Change($event)" step="any" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label>Second Unit</label>
+            <select [value]="unit2()" (change)="onUnit2Change($event)">
+              <option value="">Select unit</option>
+              @for (u of availableUnits(); track u) {
+                <option [value]="u">{{ u }}</option>
+              }
+            </select>
+          </div>
+        </div>
+      }
+
+      <button class="btn-calculate" (click)="performOperation()">{{ getActionLabel() }}</button>
+    </div>
+  </div>
+</div>
+
+<!-- Result Display -->
+@if (showResult() && currentResult()) {
+  <div class="result-display">
+    <div class="result-header">
+      <h3>Result</h3>
+      <button class="close-btn" (click)="closeResult()">&times;</button>
+    </div>
+
+    <div class="result-body">
+      @if (currentOperation() === 'convert') {
+        <div class="result-item">
+          <div class="result-label">Converted Value</div>
+          <div class="result-value">{{ getConvertedValue() }}</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Original</div>
+          <div class="result-value">{{ getOriginalValue() }}</div>
+        </div>
+      } @else if (currentOperation() === 'compare') {
+        <div class="result-item">
+          <div class="result-label">First Quantity</div>
+          <div class="result-value">{{ fmt(currentResult()?.operand1?.value) }} {{ currentResult()?.operand1?.unit }}</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Second Quantity</div>
+          <div class="result-value">{{ fmt(currentResult()?.operand2?.value) }} {{ currentResult()?.operand2?.unit }}</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Result</div>
+          <div class="result-value" [style.color]="isEqual() ? 'var(--success)' : 'var(--error)'">
+            {{ isEqual() ? '✓ Equal' : '✗ Not equal' }}
+          </div>
+        </div>
+      } @else if (currentOperation() === 'add' || currentOperation() === 'subtract') {
+        <div class="result-item">
+          <div class="result-label">Result</div>
+          <div class="result-value">{{ getArithmeticResult() }}</div>
+        </div>
+      } @else if (currentOperation() === 'divide') {
+        <div class="result-item">
+          <div class="result-label">Ratio (A ÷ B)</div>
+          <div class="result-value">{{ getDivisionResult() }}</div>
+        </div>
+      }
+    </div>
+
+    <div class="result-actions">
+      @if (!isLoggedIn()) {
+        <button class="btn-primary" (click)="promptSignIn()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M13 8V13H3V8M8 10V2M8 2L5 5M8 2L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Sign in to Save
+        </button>
+      } @else {
+        <span style="font-size:0.85rem;color:var(--success);font-weight:600;align-self:center;">✓ Saved automatically</span>
+      }
+      <button class="btn-secondary" (click)="closeResult()">Close</button>
+    </div>
+  </div>
+}

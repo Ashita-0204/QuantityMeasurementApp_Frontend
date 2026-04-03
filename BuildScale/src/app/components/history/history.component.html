@@ -1,0 +1,83 @@
+<app-navbar></app-navbar>
+
+<div class="history-container">
+  <div class="history-header">
+    <h1>Operation History</h1>
+    <p>View and manage your saved calculations</p>
+  </div>
+
+  <div class="history-filters">
+    <select (change)="onFilterChange($event)">
+      <option value="all">All Operations</option>
+      <option value="add">Add</option>
+      <option value="subtract">Subtract</option>
+      <option value="divide">Divide</option>
+      <option value="compare">Compare</option>
+      <option value="convert">Convert</option>
+    </select>
+    <button class="btn-secondary" (click)="clearHistory()">
+      Clear All History
+    </button>
+  </div>
+
+  <div class="history-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Operation</th>
+          <th>Details</th>
+          <th>Result</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (loading()) {
+          <tr>
+            <td colspan="5" style="text-align: center; padding: 3rem">
+              <div class="spinner"></div>
+              <p style="margin-top: 1rem; color: var(--text-secondary)">
+                Loading history...
+              </p>
+            </td>
+          </tr>
+        } @else if (filteredHistory().length === 0) {
+          <tr>
+            <td
+              colspan="5"
+              style="
+                text-align: center;
+                padding: 3rem;
+                color: var(--text-secondary);
+              "
+            >
+              No operations saved yet. Start calculating to build your history!
+            </td>
+          </tr>
+        } @else {
+          @for (item of filteredHistory(); track item.id) {
+            <tr>
+              <td>{{ formatDate(item.timestamp) }}</td>
+              <td>
+                <span [class]="getBadgeClass(item.operation)">{{
+                  item.operation.toUpperCase()
+                }}</span>
+              </td>
+              <td>{{ formatDetails(item) }}</td>
+              <td>{{ formatResult(item) }}</td>
+              <td>
+                <button
+                  class="btn-secondary"
+                  style="padding: 0.5rem 1rem; font-size: 0.85rem"
+                  (click)="deleteHistoryItem(item.id)"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
