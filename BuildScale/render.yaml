@@ -6,7 +6,7 @@ services:
     staticPublishPath: dist/buildscale-angular/browser
     envVars:
       - key: API_URL
-        value: https://your-backend.onrender.com # change this later
+        value: https://quantitymeasurementappbackend.onrender.com
     headers:
       - path: /*
         name: Cache-Control
