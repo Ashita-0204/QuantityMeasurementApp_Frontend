@@ -11,8 +11,9 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class QuantityService {
-  private apiBase = environment.apiUrl;
-
+  private get apiBase(): string {
+  return (window as any).__env?.apiUrl || 'https://quantitymeasurementappbackend.onrender.com';
+}
   getUnitsForCategory(category: UnitCategory): string[] {
     return UNIT_MAP[category] || [];
   }

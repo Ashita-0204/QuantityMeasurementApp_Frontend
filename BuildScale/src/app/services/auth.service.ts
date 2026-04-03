@@ -8,8 +8,10 @@ const PENDING_KEY = 'pendingOperations';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiBase = environment.apiUrl;
-  isLoggedIn = signal<boolean>(false);
+  private get apiBase(): string {
+  return (window as any).__env?.apiUrl || 'https://quantitymeasurementappbackend.onrender.com';
+}
+isLoggedIn = signal<boolean>(false);
 
   constructor(private http: HttpClient, private router: Router) {
     this.isLoggedIn.set(!!localStorage.getItem('token'));
