@@ -1,4 +1,4 @@
 (function (window) {
   window.__env = window.__env || {};
-  window.__env.apiUrl = "http://localhost:5001"; // fallback for local dev
+  window.__env.apiUrl = "https://quantitymeasurementappbackend.onrender.com"; // fallback for local dev
 })(this);
