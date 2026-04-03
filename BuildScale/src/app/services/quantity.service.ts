@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
 import {
   OperationType,
   OperationRequest,
@@ -11,7 +10,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class QuantityService {
-  private get apiBase(): string {
+ private get apiBase(): string {
   return (window as any).__env?.apiUrl || 'https://quantitymeasurementappbackend.onrender.com';
 }
   getUnitsForCategory(category: UnitCategory): string[] {
